@@ -1,0 +1,88 @@
+<div class="d-flex justify-content-center mt-5 text-primary" *ngIf="!onload">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+  
+  <div *ngIf="onload">
+    <form  [formGroup]="detailsForm">
+      <div class="row my-3">
+        <div class="col-3 text-center">तारीख</div>
+        <div class="col-6">
+          <input type="date" class="form-control" formControlName="Date"
+            style="padding-right: 5px;padding-left: 5px;">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 text-center"> 
+          प्रकार
+        </div>
+        <div class="col-6">
+          <select class="form-select" aria-label="Default select example" formControlName="SupType" (change)="changeRate()">
+            <option value={{type}} *ngFor="let type of types">{{type}}</option>
+            <!-- <option value="ट.एम.आर">ट.एम.आर</option>
+            <option value="फर्टिमन">फर्टिमन</option>
+            <option value="भेट शुल्क">भेट शुल्क</option>
+            <option value="इतर">इतर</option> -->
+          </select>
+  
+        </div>
+          
+        </div>
+      <!-- <div class="col-3 text-center">तारीख</div>
+        <div class="col-3">
+          <input type="date" class="form-control" formControlName="Date"
+            style="padding-right: 5px;padding-left: 5px;">
+        </div> -->
+    <div class="row my-3">
+      <div class="col-3 text-center">पिशवी</div>
+      <div class="col-3">
+        <input type="number" class="form-control" formControlName="bags" (keyup)="calcu()" style="padding-right: 5px;padding-left: 5px;">
+      </div>
+      <div class="col-3 text-center">दर</div>
+      <div class="col-3">
+        <input type="number" class="form-control" formControlName="Rate" (keyup)="calcu()" style="padding-right: 5px;padding-left: 5px;">
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col-3 text-center">एकूण दर</div>
+      <div class="col-3">
+        <input type="number" class="form-control" formControlName="Amount" style="padding-right: 5px;padding-left: 5px;">
+      </div>
+    </div>
+  </form>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-info" (click)="postData()" [disabled]='val || isClicked || !this.detailsForm.valid'>OKAY</button>
+    </div>
+    <div class="row mt-2 mr-3">
+      <div class="d-flex justify-content-end">
+          <h4>एकूण शिल्लक:Rs.{{balance}}</h4>
+      </div>
+  </div>
+  
+  
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr class="text-center">
+            <th>तारीख</th>
+            <th>प्रकार</th>
+            <th>पिशवी</th>
+            <th>दर</th>
+            <th>रक्कम</th>
+            <th>कपात</th>
+          </tr>
+        </thead>  
+        <tbody>
+          <tr *ngFor="let temp of data | orderBy: order : true" class="text-center">
+            <td>{{temp.date| date: 'dd/MM/YYYY'}} </td>
+            <td>{{temp.supType}} </td>
+            <td>{{temp.bag}}</td>
+            <td>{{temp.rate}}</td>
+            <td>{{temp.addAmount}}</td>
+            <td class="text-danger">{{temp.cutAmount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

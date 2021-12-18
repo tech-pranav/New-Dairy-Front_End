@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-center mt-5 text-primary" *ngIf="!onload">
+   <app-spinner></app-spinner>
+  </div>
+  <div id="print-section" #Download>
+    <div class="d-none d-print-block">
+      <div class="px-1 py-1 d-flex justify-content-center">
+        <h2 class="text-primary">{{name}}</h2>
+      </div>
+      <div class="row px-1 py-1">
+        <div class=" col mx-5  px-1 py-1" style="border-radius: 5px;">
+          <div class=" text-center "> <strong><strong>{{Cnum}}</strong>-<strong>{{Cname}}</strong> </strong>
+          </div>
+        </div>
+        <div class=" col mx-5  px-1 py-1" style="border-radius: 5px;">
+          <div class=" text-center "> <strong><strong>दुधाचा प्रकार:</strong>-<strong>{{MCtype}}</strong> </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="onload">
+      <div *ngIf="valid">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>तारीख</th>
+              <th>वेळ</th>
+              <th>दूध</th>
+              <th>फॅट</th>
+              <th>SNF</th>
+              <th>दर</th>
+              <th>रक्कम</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let temp of CurrentBill | orderBy: order">
+              <td>{{temp.date| date: 'dd/MM'}} </td>
+              <td>{{temp.hours}}</td>
+              <td>{{temp.milk}}</td>
+              <td>{{temp.fat}}</td>
+              <td>{{temp.snf}}</td>
+              <td>{{temp.rate}}</td>
+              <td>{{temp.t_rate}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row "> 
+          <div class="col-5 ">
+            <div class="row " style="margin-left: 0px;">
+              <div class="col-7 text-primary"><b>एकूण दूध</b></div>
+              <div class="col-5"><strong>{{totalMilk}}लि</strong></div>
+            </div>
+          </div>
+          <div class="col-7 ">
+            <div class="row " style="margin-left: 0px;">
+              <div class="col-6 text-primary"><b>एकूण रक्कम</b></div>
+              <div class="col-6"><strong>{{totalRate}}रु.</strong> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-2 mt-5 " *ngIf="onload && valid">
+    <div class="col text-center">
+        <div> सकाळ</div>
+        <div><strong>{{morMilk}}लि./{{morRate}}रु.</strong></div>
+    </div>
+    <div class="col text-center">
+        <div> संध्याकाळ</div>
+        <div><strong>{{eveMilk}}लि./{{eveRate}}रु.</strong></div>
+    </div>
+  </div>
+  <div class="mt-5 d-flex justify-content-center" *ngIf="!valid">
+    <h3>{{err}} </h3>
+  </div>

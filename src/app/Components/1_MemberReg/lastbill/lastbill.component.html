@@ -1,0 +1,153 @@
+<div class="d-flex justify-content-center mt-5 text-primary" *ngIf="!onload && !onload_1">
+   <app-spinner></app-spinner>
+  </div>
+  
+    <div class="my-1 text-center"  *ngIf="!exist && onload_1">
+    <h4 class="text-danger">*तुम्ही बिल तयार केले नाही !!</h4>
+  </div>
+  
+  
+  <div>
+    <div class="d-none d-print-block">
+      <div class="px-1 py-1 d-flex justify-content-center">
+        <h2 class="text-primary">{{name}}</h2>
+      </div>
+  
+      <div class="row px-1 py-1">
+        <div class=" col mx-5  px-1 py-1" style="border-radius: 5px;">
+          <div class=" text-center "> <strong><strong>{{Cnum}}</strong>-<strong>{{Cname}}</strong> </strong>
+          </div>
+        </div>
+        <div class=" col mx-5  px-1 py-1" style="border-radius: 5px;">
+          <div class=" text-center "> <strong><strong>दुधाचा प्रकार:</strong>-<strong>{{MCtype}}</strong> </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="onload && onload_1">
+      <div *ngIf="valid" >
+  <div id="print_section">
+        <table class="table table-striped"  >
+          <thead>
+            <tr>
+              <th>तारीख</th>
+              <th>वेळ</th>
+              <th>दूध</th>
+              <th>फॅट</th>
+              <th>SNF</th>
+              <th>दर</th>
+              <th>रक्कम</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let temp of lastBill| orderBy: order">
+              <td>{{temp.date| date: 'dd/MM'}} </td>
+              <td>{{temp.hours}}</td>
+              <td>{{temp.milk}}</td>
+              <td>{{temp.fat}}</td>
+              <td>{{temp.snf}}</td>
+              <td>{{temp.rate}}</td>
+              <td>{{temp.t_rate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <div class="row ">
+          <div class="col-5 ">
+            <div class="row " style="margin-left: 0px;">
+              <div class="col-7 text-primary"><b>एकूण दूध</b></div>
+              <div class="col-5"><strong>{{totalMilk}}लि</strong></div>
+            </div>
+          </div>
+          <div class="col-7 ">
+            <div class="row " style="margin-left: 0px;">
+              <div class="col-6 text-primary"><b>एकूण रक्कम</b></div>
+              <div class="col-6"><strong>{{totalRate}}रु.</strong> </div>
+            </div>
+  
+          </div>
+        </div>
+  
+        <div class="row ">
+          <div class="col-6">
+            <form [formGroup]="detailsForm">
+              <div class="form-group row mt-3">
+                <label class="col-6 text-primary" style="padding-right: 0px;padding-left: 15px;">ऍडव्हान्स (रु.) </label>
+                <div class="col-6 ml-1">
+                  <input type="number" class="form-control" formControlName="Adv" (keyup)="calcu()"
+                    [attr.disabled]="exist ? '' :null" style="padding-right: 5px;padding-left: 5px;">
+                </div>
+              </div>
+  
+              <div class="form-group row mt-3">
+                <label class="col-6 text-primary" style="padding-right: 0px;padding-left: 15px;">पशुखाद्य (रु.)</label>
+                <div class="col-6 ml-1">
+                  <input type="number" class="form-control" formControlName="Sup" (keyup)="calcu()"
+                    [attr.disabled]="exist ? '' :null" style="padding-right: 5px;padding-left: 5px;">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-6">
+            <form [formGroup]="detailsForm">
+              <div class="form-group row mt-3">
+                <label class="col-7 text-primary" style="padding-right: 5px;padding-left: 5px;">बँक भरणा (रु.)</label>
+                <div class="col-5">
+                  <input type="number" class="form-control" formControlName="Saving" (keyup)="calcu()"
+                    [attr.disabled]="exist ? '' :null" style="padding-right: 5px;padding-left: 5px;">
+                </div>
+              </div>
+  
+              <div class="form-group row mt-3">
+                <label class="col-7 text-primary">शि.पशुखाद्य</label>
+                <div class="col-5 ">
+                  <input type="number" class="form-control" formControlName="Balance" (keyup)="calcu()"
+                    [attr.disabled]="true" style="padding-right: 5px;padding-left: 5px;">
+                </div>
+              </div>
+            </form>
+          </div>
+  
+  
+        </div>
+        <div class="row mt-3">
+          <div class="col text-center ">
+            <div class="text-primary"> एकूण रक्कम</div>
+            <div><strong>{{totalRate}} रु.</strong></div>
+          </div>
+          <div class="col text-center ">
+            <div class="text-danger"> <strong> - </strong> एकूण कपात</div>
+            <div><strong>{{totalDeduct}} रु.</strong></div>
+          </div>
+          <div class="col text-center ">
+            <div class="text-primary"> <strong> = </strong> देय रक्कम</div>
+            <div><strong>{{subTotal}} रु.</strong></div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <div *ngIf="onload && onload_1 && valid">
+    <div *ngIf="!onPrintShow" class="col text-center  my-5 mt-3">
+      <button  class="btn btn-primary"  *ngIf="!exist" (click)="Submit()" [disabled]="clicked">PRINT</button><br>
+        <button  class="btn btn-primary"  *ngIf="exist" (click)="OnPrint()">PRINT</button><br>
+      <small class="text-danger">{{err_p}}</small>
+    </div>
+  </div>
+  
+  <div class="row mb-2" *ngIf="onload && onload_1 && valid">
+    <div class="col text-center">
+        <div> सकाळ</div>
+        <div><strong>{{this.morMilk}}लि./{{this.morRate}}रु.</strong></div>
+    </div>
+    <div class="col text-center">
+        <div> संध्याकाळ</div>
+        <div><strong>{{this.eveMilk}}लि./{{this.eveRate}}रु.</strong></div>
+    </div>
+  </div>
+  
+  
+  <div class="mt-5 d-flex justify-content-center" *ngIf="!valid">
+    <h3>{{err}} </h3>
+  </div>

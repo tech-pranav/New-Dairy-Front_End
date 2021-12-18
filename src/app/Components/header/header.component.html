@@ -1,0 +1,36 @@
+  <div style="width: 100%;">
+    <nav class="navbar navbar-light bg-primary">
+      <a class="navbar-brand text-white mx-2" style="font-weight: 650; ">{{Name}}</a>
+      <button class="navbar-toggler mx-2 " type="button" data-toggle="collapse" (click)="navbarToggel()"
+        data-target="#collapsibleNavbar">
+        <span class=" text-white navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar" [ngClass]="{'show' : navbaropen}">
+        <hr style="color: white; height: 2px;">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <h5 class="nav-link text-white mx-3 d-flex justify-content-between" routerLink="/Main">
+              <span routerLink="/Main"> दैनिक नोंदणी</span> <span routerLink="/">दैनिक रजिस्टर</span>
+            </h5>
+          </li>
+  
+  
+          <li class="nav-item">
+            <h5 class="nav-link text-white mx-3 d-flex justify-content-between" routerLink="/Main">
+              <span routerLink="/Payment">पेमेंट रजिस्टर</span> <span routerLink="/">डेअरी रजिस्टर</span>
+            </h5>
+          </li>
+  
+          <li class="nav-item">
+            <h5 class="nav-link text-white mx-3 d-flex justify-content-between" routerLink="/Main">
+              <span routerLink="/DairySales">डेअरी विक्री</span> <span routerLink="/">सभासद नोंदणी</span>
+            </h5>
+          </li>
+          <li class="nav-item">
+            <h5 class="nav-link text-white  mx-3 d-flex justify-content-center" (click)="logout()"><span
+                class="bg-danger px-2 py-2 "> लॉग आउट</span></h5>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
